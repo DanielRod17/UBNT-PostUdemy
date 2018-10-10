@@ -1,4 +1,5 @@
 ﻿using System;
+using UBNT.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,8 +11,9 @@ namespace UBNT
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+            MainPage = new NavigationPage(new Principal());
+            //MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

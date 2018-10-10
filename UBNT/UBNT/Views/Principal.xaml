@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UBNT.Views.Principal">
+	
+	<Grid ColumnSpacing="5" RowSpacing="5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="100"></RowDefinition>
+			<RowDefinition></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="300"></ColumnDefinition>
+			<ColumnDefinition></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+
+		<Button Text="HolaLupesitar" Grid.ColumnSpan="2"></Button>
+		<Button Text="Adios" Grid.Row="1" Grid.Column="1"></Button>
+	</Grid>
+	
+</ContentPage>

@@ -3,6 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UBNT.App">
     <Application.Resources>
-
-    </Application.Resources>
+		<ResourceDictionary>
+			<Style x:Key="loadLayout" TargetType="StackLayout">
+				<Setter Property="BackgroundColor" Value="Black"/>
+			</Style>
+			<Style TargetType="NavigationPage">
+				<Setter Property="BarBackgroundColor" Value="Black"/>
+				<Setter Property="BarTextColor" Value="Transparent"/>
+			</Style>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>
