@@ -12,8 +12,8 @@ namespace UBNT
         {
             InitializeComponent();
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            MainPage = new NavigationPage(new Principal());
-            //MainPage = new NavigationPage(new MainPage());
+            //MainPage = new NavigationPage(new Principal());
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

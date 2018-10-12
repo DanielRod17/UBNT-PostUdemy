@@ -30,6 +30,7 @@ namespace UBNT.ViewController
                 OnPropertyChanged();
             }
         }
+
         private InfoUsuario _data;
         public InfoUsuario userData {
             get { return _data; }
@@ -39,6 +40,18 @@ namespace UBNT.ViewController
                 OnPropertyChanged();
             }
         }
+
+        private UsuarioServicios _dataServicio;
+        public UsuarioServicios userServicios
+        {
+            get { return _dataServicio; }
+            set
+            {
+                _dataServicio = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command LoginCommand { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
@@ -73,10 +86,29 @@ namespace UBNT.ViewController
                             var mensage = string.Join(Environment.NewLine, values);
                             var result = JsonConvert.DeserializeObject<InfoUsuario>(mensage);
                             userData = result;
+                            var resultado = new UsuarioServicios();
                             if (userData.contacts.ElementAt(0).phone.ToString() == phone)
                             {
+                                /////////////////////////
+                                var id = userData.id;
+                                var responso = await client.GetAsync("https://portal.icentral.com.mx/api/v1.0/clients/"+ id +"/services");
+                                var responseData = await responso.Content.ReadAsStringAsync();
+                                root = JToken.Parse(responseData);
+                                values = root.Where(innerItem => innerItem["clientId"].Value<string>() == id.ToString())
+                                    .ToList();
+                                var message = string.Join(Environment.NewLine, values);
+                                var settings = new JsonSerializerSettings
+                                {
+                                    NullValueHandling = NullValueHandling.Ignore,
+                                    MissingMemberHandling = MissingMemberHandling.Ignore
+                                };
+                                var mensageJson = JsonConvert.DeserializeObject<UsuarioServicios>(message, settings);
+                                userServicios = mensageJson;
+                                //var download = mensageJson["downloadSpeed"].ToString();
+                                //await Application.Current.MainPage.DisplayAlert("Oops", userServicios.city, "OK");
+                                mensage = string.Join(Environment.NewLine, values);
                                 HasPropertyValueChanged = false;
-                                await Navigation.PushAsync(new Principal());
+                                await Navigation.PushAsync(new Principal(userData, userServicios));
                             }
                             else
                             {
@@ -86,10 +118,7 @@ namespace UBNT.ViewController
                         }
                         catch (HttpRequestException e)
                         {
-                            if (e.Message.Contains("Failed to connect to") == true)
-                            {
                                 await Application.Current.MainPage.DisplayAlert("Oops", e.Message, "OK");
-                            }
                         }
                     }
                 }
@@ -97,7 +126,7 @@ namespace UBNT.ViewController
             catch (Exception ex)
             {
                 HasPropertyValueChanged = false;
-                await Application.Current.MainPage.DisplayAlert("Offline", "Service Currently Unavailable", "OK");               
+                await Application.Current.MainPage.DisplayAlert("Offline", ex.Message, "OK");               
             }
             ////////////
         }

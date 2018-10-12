@@ -13,10 +13,11 @@ namespace UBNT.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Principal : ContentPage
 	{
-		public Principal (InfoUsuario usuario = null)
+		public Principal (InfoUsuario usuario = null, UsuarioServicios servicios = null)
 		{
 			InitializeComponent();
-            //BindingContext = new PrincipalViewViewModel(Navigation, user);
+            NavigationPage.SetHasNavigationBar(this, false);
+            BindingContext = new PrincipalViewViewModel(Navigation, usuario, servicios);
         }
 	}
 }
